@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ProjetoCar"
+        tools:targetApi="31">
+
+
+        <activity android:name=".activitys.UsuarioSelecionaEnderecoActivity" />
+        <activity android:name=".activitys.CategoriaActivity" />
+        <activity android:name=".activitys.FormCarroActivity" />
+        <activity android:name=".activitys.EnderecoFormActivity" />
+        <activity android:name=".activitys.PerfilActivity" />
+        <activity android:name=".activitys.EnderecoAddActivity" />
+        <activity android:name=".auth.RecuperarSenhaActivity" />
+        <activity android:name=".auth.CadastroActivity" />
+        <activity
+            android:name=".auth.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activitys.MainActivity" />
+
+        <!-- Acesso a camera-->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.projetocar.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:ignore="MissingClass">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+
+    </application>
+
+</manifest>

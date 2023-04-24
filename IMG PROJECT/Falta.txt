@@ -1,0 +1,16 @@
+
+1 - Selecionar Endereço onde o veiculo se encontra (Inserir Carro) - Concluido
+
+2 - Adicionar Data da compra (Inserir Carro)
+
+3 - Adicionar mais compos de endereço (EnderecoAdd)
+
+4 - Editar tela de perfil.
+
+5 - Verificar OnClick da classe EnderecoFormActivity
+
+
+
+
+
+
