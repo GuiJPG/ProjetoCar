@@ -1,4 +1,4 @@
-package com.example.projetocar.fragments;
+package com.example.projetocar.adapter.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;

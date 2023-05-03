@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.blackcat.currencyedittext.CurrencyEditText;
 import com.example.projetocar.R;
 import com.example.projetocar.helper.FirebaseHelper;
+import com.example.projetocar.model.Anuncio;
 import com.example.projetocar.model.Categoria;
 import com.example.projetocar.model.Endereco;
 import com.example.projetocar.model.Imagem;
@@ -80,6 +81,9 @@ public class FormCarroActivity extends AppCompatActivity {
 
     private List<Imagem> imagemList = new ArrayList<>();
 
+    private Anuncio anuncio;
+    private boolean novoAnuncio = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,7 +132,7 @@ public class FormCarroActivity extends AppCompatActivity {
         String anoModelo = edt_ano_modelo.getUnMasked();
         String quilometragem = edt_quilometragem.getText().toString();
         String descricao = edt_descricao.getText().toString();
-        String dataCompada = edt_data_comprada.getUnMasked();
+        String dataComprada = edt_data_comprada.getUnMasked();
 
 
        if(!titulo.isEmpty()){
@@ -138,18 +142,34 @@ public class FormCarroActivity extends AppCompatActivity {
                            if(anoModelo.length() == 4){
                                if(!quilometragem.isEmpty()){
                                    if(!descricao.isEmpty()){
-                                       if(dataCompada.length() == 8){
-                                          if(!categoriaSelecionada.isEmpty()){
-                                              if(!enderecoSelecionado.isEmpty()){
-                                                  Toast.makeText(this, "Tudo Certo!", Toast.LENGTH_SHORT).show();
+                                       if(dataComprada.length() == 8){
+                                           if(!categoriaSelecionada.isEmpty()){
+                                              if(endereco.getBairro() != null){
+
+                                                if(anuncio == null) anuncio = new Anuncio();
+                                                anuncio.setIdUsuario(FirebaseHelper.getIdFirebase());
+                                                anuncio.setTitulo(titulo);
+                                                anuncio.setValor(valor);
+                                                anuncio.setPlaca(placa);
+                                                anuncio.setCategoria(categoriaSelecionada);
+                                                anuncio.setModelo(modelo);
+                                                anuncio.setAnoModelo(anoModelo);
+                                                anuncio.setQuilometragem(quilometragem);
+                                                anuncio.setDescricao(descricao);
+                                                anuncio.setDataCompada(dataComprada);
+                                                anuncio.setEndereco(endereco);
+
+                                                anuncio.salvar(novoAnuncio);
+
+
                                               }else{
                                                   Toast.makeText(this, "Selecione um endereço", Toast.LENGTH_SHORT).show();
                                               }
 
-                                          }else{
-                                              Toast.makeText(this, "Selecione uma categoria", Toast.LENGTH_SHORT).show();
+                                           }else{
+                                               Toast.makeText(this, "Selecione uma categoria", Toast.LENGTH_SHORT).show();
 
-                                          }
+                                           }
 
                                        }else{
                                            edt_data_comprada.requestFocus();

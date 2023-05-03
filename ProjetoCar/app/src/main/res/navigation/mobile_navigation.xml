@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/menu_home"
-        android:name="com.example.projetocar.fragments.HomeFragment"
+        android:name="com.example.projetocar.adapter.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/menu_meu_estoque"
-        android:name="com.example.projetocar.fragments.MeuEstoqueFragment"
+        android:name="com.example.projetocar.adapter.fragments.MeuEstoqueFragment"
         android:label="fragment_meu_estoque"
         tools:layout="@layout/fragment_meu_estoque" />
     <fragment
         android:id="@+id/menu_favoritos"
-        android:name="com.example.projetocar.fragments.FavoritosFragment"
+        android:name="com.example.projetocar.adapter.fragments.FavoritosFragment"
         android:label="fragment_favoritos"
         tools:layout="@layout/fragment_favoritos" />
     <fragment
         android:id="@+id/menu_minha_conta"
-        android:name="com.example.projetocar.fragments.MinhaContaFragment"
+        android:name="com.example.projetocar.adapter.fragments.MinhaContaFragment"
         android:label="fragment_minha_conta"
         tools:layout="@layout/fragment_minha_conta" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.projetocar.fragments;
+package com.example.projetocar.adapter.fragments;
 
 import android.os.Bundle;
 
@@ -10,12 +10,13 @@ import android.view.ViewGroup;
 
 import com.example.projetocar.R;
 
-public class FavoritosFragment extends Fragment {
+
+public class MeuEstoqueFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favoritos, container, false);
+        return inflater.inflate(R.layout.fragment_meu_estoque, container, false);
     }
 }
