@@ -7,7 +7,7 @@ import com.google.firebase.database.ServerValue;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Anuncio {
+public class Automovel {
 
     private String id;
     private String idUsuario;
@@ -25,19 +25,19 @@ public class Anuncio {
     private Endereco endereco;
     private List<String> urlImagens = new ArrayList<>();
 
-    public Anuncio() {
+    public Automovel() {
         DatabaseReference anuncioRef = FirebaseHelper.getDatabaseReference();
         this.setId(anuncioRef.push().getKey());
     }
 
-    public void salvar(boolean novoAnuncio){
+    public void salvar(boolean novoAutomovel){
         DatabaseReference meusAnunciosRef = FirebaseHelper.getDatabaseReference()
-                .child("meus_anuncios")
+                .child("meus_automoveis")
                 .child(FirebaseHelper.getIdFirebase())
                 .child(this.getId());
         meusAnunciosRef.setValue(this);
 
-        if(novoAnuncio){
+        if(novoAutomovel){
             DatabaseReference dataAnuncioPublicado = meusAnunciosRef
                     .child("dataPublicacao");
             dataAnuncioPublicado.setValue(ServerValue.TIMESTAMP);

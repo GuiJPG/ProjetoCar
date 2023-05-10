@@ -16,7 +16,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,7 +26,7 @@ import android.widget.Toast;
 import com.blackcat.currencyedittext.CurrencyEditText;
 import com.example.projetocar.R;
 import com.example.projetocar.helper.FirebaseHelper;
-import com.example.projetocar.model.Anuncio;
+import com.example.projetocar.model.Automovel;
 import com.example.projetocar.model.Categoria;
 import com.example.projetocar.model.Endereco;
 import com.example.projetocar.model.Imagem;
@@ -36,6 +35,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.normal.TedPermission;
 import com.santalu.maskara.widget.MaskEditText;
@@ -81,7 +82,7 @@ public class FormCarroActivity extends AppCompatActivity {
 
     private List<Imagem> imagemList = new ArrayList<>();
 
-    private Anuncio anuncio;
+    private Automovel automovel;
     private boolean novoAnuncio = true;
 
     @Override
@@ -146,20 +147,30 @@ public class FormCarroActivity extends AppCompatActivity {
                                            if(!categoriaSelecionada.isEmpty()){
                                               if(endereco.getBairro() != null){
 
-                                                if(anuncio == null) anuncio = new Anuncio();
-                                                anuncio.setIdUsuario(FirebaseHelper.getIdFirebase());
-                                                anuncio.setTitulo(titulo);
-                                                anuncio.setValor(valor);
-                                                anuncio.setPlaca(placa);
-                                                anuncio.setCategoria(categoriaSelecionada);
-                                                anuncio.setModelo(modelo);
-                                                anuncio.setAnoModelo(anoModelo);
-                                                anuncio.setQuilometragem(quilometragem);
-                                                anuncio.setDescricao(descricao);
-                                                anuncio.setDataCompada(dataComprada);
-                                                anuncio.setEndereco(endereco);
+                                                if(automovel == null) automovel = new Automovel();
+                                                automovel.setIdUsuario(FirebaseHelper.getIdFirebase());
+                                                automovel.setTitulo(titulo);
+                                                automovel.setValor(valor);
+                                                automovel.setPlaca(placa);
+                                                automovel.setCategoria(categoriaSelecionada);
+                                                automovel.setModelo(modelo);
+                                                automovel.setAnoModelo(anoModelo);
+                                                automovel.setQuilometragem(quilometragem);
+                                                automovel.setDescricao(descricao);
+                                                automovel.setDataCompada(dataComprada);
+                                                automovel.setEndereco(endereco);
 
-                                                anuncio.salvar(novoAnuncio);
+                                                if(novoAnuncio){
+                                                    if(imagemList.size() == 3){
+                                                        for(int i = 0; i < imagemList.size(); i++){
+                                                            salvarImagemFirebase(imagemList.get(i), i);
+                                                        }
+                                                    }else{
+                                                        Toast.makeText(this, "Selecione 3 Imagens", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+
+                                               //Adicionar mensagem de finalizado
 
 
                                               }else{
@@ -210,6 +221,29 @@ public class FormCarroActivity extends AppCompatActivity {
            edt_titulo.requestFocus();
            edt_titulo.setError("Informe um titulo");
        }
+    }
+
+    private void salvarImagemFirebase(Imagem imagem, int index){
+        StorageReference storageReference = FirebaseHelper.getStorageReference()
+                .child("imagens")
+                .child("anuncios")
+                .child(automovel.getId())
+                .child("imagem" + index + ".jpeg");
+
+        UploadTask uploadTask = storageReference.putFile(Uri.parse(imagem.getCaminhoimagem()));
+        uploadTask.addOnSuccessListener(taskSnapshot -> storageReference.getDownloadUrl().addOnCompleteListener(task -> {
+
+            if(novoAnuncio){
+                automovel.getUrlImagens().add(index,task.getResult().toString());
+            }else{
+                automovel.getUrlImagens().set(imagem.getIndex(), task.getResult().toString());
+            }
+            if(imagemList.size() == index + 1){
+                automovel.salvar(novoAnuncio);
+            }
+
+        })).addOnFailureListener(e -> Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show());
+        //Salva as imagens como imagem0.jpeg......
     }
 
     public void selecionarCategoria(View view){
