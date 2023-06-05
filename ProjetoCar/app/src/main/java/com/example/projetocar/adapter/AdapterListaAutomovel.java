@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,10 +41,10 @@ public class AdapterListaAutomovel extends RecyclerView.Adapter<AdapterListaAuto
         Automovel automovel = automoveisList.get(position);
 
         Picasso.get().load(automovel.getUrlImagens().get(0)).into(holder.img_automovel);
-        holder.text_titulo.setTextContent(automovel.getTitulo());
-        holder.text_ano.setTextContent(automovel.getAnoModelo());
-        //holder.text_valor.setTextContent(automovel.getValor());
-        holder.text_placa.setTextContent(automovel.getPlaca());
+        holder.text_titulo.setText(automovel.getTitulo());
+        holder.text_ano.setText(automovel.getAnoModelo());
+        //holder.text_valor.setText(automovel.getValor());
+        holder.text_placa.setText(automovel.getPlaca());
 
     }
 
@@ -59,10 +60,10 @@ public class AdapterListaAutomovel extends RecyclerView.Adapter<AdapterListaAuto
     static class MyViewHolder extends RecyclerView.ViewHolder{
 
         ImageView img_automovel;
-        Text text_titulo;
-        Text text_ano;
-        Text text_valor;
-        Text text_placa;
+        TextView text_titulo;
+        TextView text_ano;
+        TextView text_valor;
+        TextView text_placa;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
