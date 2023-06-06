@@ -1,5 +1,9 @@
 package com.example.projetocar.model;
 
+import android.app.Activity;
+import android.content.Intent;
+
+import com.example.projetocar.activitys.MainActivity;
 import com.example.projetocar.helper.FirebaseHelper;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ServerValue;
@@ -30,7 +34,7 @@ public class Automovel {
         this.setId(anuncioRef.push().getKey());
     }
 
-    public void salvar(boolean novoAutomovel){
+    public void salvar(Activity activity, boolean novoAutomovel){
         DatabaseReference meusAnunciosRef = FirebaseHelper.getDatabaseReference()
                 .child("meus_automoveis")
                 .child(FirebaseHelper.getIdFirebase())
@@ -40,7 +44,14 @@ public class Automovel {
         if(novoAutomovel){
             DatabaseReference dataAnuncioPublicado = meusAnunciosRef
                     .child("dataPublicacao");
-            dataAnuncioPublicado.setValue(ServerValue.TIMESTAMP);
+            dataAnuncioPublicado.setValue(ServerValue.TIMESTAMP).addOnCompleteListener(task -> {
+                activity.finish();
+                Intent intent = new Intent(activity, MainActivity.class);
+                activity.startActivity(intent);
+            });
+        }else{
+            activity.finish();
+
         }
 
     }

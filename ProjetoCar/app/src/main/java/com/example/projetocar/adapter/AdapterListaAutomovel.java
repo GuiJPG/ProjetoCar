@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projetocar.R;
+import com.example.projetocar.helper.Mascara;
 import com.example.projetocar.model.Automovel;
 import com.squareup.picasso.Picasso;
 
@@ -43,8 +44,10 @@ public class AdapterListaAutomovel extends RecyclerView.Adapter<AdapterListaAuto
         Picasso.get().load(automovel.getUrlImagens().get(0)).into(holder.img_automovel);
         holder.text_titulo.setText(automovel.getTitulo());
         holder.text_ano.setText(automovel.getAnoModelo());
-        //holder.text_valor.setText(automovel.getValor());
+        holder.text_valor.setText("R$ " + Mascara.getValor(automovel.getValor()));
         holder.text_placa.setText(automovel.getPlaca());
+
+        holder.itemView.setOnClickListener(v -> onclickListener.OnClick(automovel));
 
     }
 

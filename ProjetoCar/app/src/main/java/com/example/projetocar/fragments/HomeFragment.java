@@ -72,6 +72,7 @@ public class HomeFragment extends Fragment implements AdapterListaAutomovel.Oncl
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(snapshot.exists()){
+                        automovelList.clear();
                         for (DataSnapshot ds : snapshot.getChildren()){
                             Automovel automovel = ds.getValue(Automovel.class);
                             automovelList.add(automovel);

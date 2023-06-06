@@ -239,7 +239,7 @@ public class FormCarroActivity extends AppCompatActivity {
                 automovel.getUrlImagens().set(imagem.getIndex(), task.getResult().toString());
             }
             if(imagemList.size() == index + 1){
-                automovel.salvar(novoAnuncio);
+                automovel.salvar(this, novoAnuncio);
             }
 
         })).addOnFailureListener(e -> Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show());

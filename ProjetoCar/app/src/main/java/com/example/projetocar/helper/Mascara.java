@@ -15,6 +15,8 @@ import java.util.TimeZone;
 
 public class Mascara {
 
+    /* Metodo para adicionar futuramente com informações de datas
+
     public static String getData(long dataPublicacao, int tipo){
 
         final  int DIA_MES_ANO = 1;
@@ -114,6 +116,8 @@ public class Mascara {
         return time;
 
     }
+
+     */
 
 
     public static String getValor(double valor){
