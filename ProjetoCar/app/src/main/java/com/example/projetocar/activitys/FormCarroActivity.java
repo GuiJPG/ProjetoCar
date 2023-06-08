@@ -97,6 +97,7 @@ public class FormCarroActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if(bundle != null){
+
             automovel = (Automovel) bundle.getSerializable("automovelSelecionado");
 
             configDados();
@@ -123,7 +124,6 @@ public class FormCarroActivity extends AppCompatActivity {
         edt_descricao.setText(automovel.getDescricao());
 
         // Implementar metodo para recuperar endereço
-
         //enderecoSelecionado = endereco.getBairro();
         //btn_endereco.setText(enderecoSelecionado);
 
@@ -267,7 +267,7 @@ public class FormCarroActivity extends AppCompatActivity {
     private void salvarImagemFirebase(Imagem imagem, int index){
         StorageReference storageReference = FirebaseHelper.getStorageReference()
                 .child("imagens")
-                .child("anuncios")
+                .child("automoveis")
                 .child(automovel.getId())
                 .child("imagem" + index + ".jpeg");
 
@@ -468,7 +468,6 @@ public class FormCarroActivity extends AppCompatActivity {
     private void iniciarComponesntes(){
         text_toolbar = findViewById(R.id.text_toolbar);
         text_toolbar.setText("Novo Carro");
-
         edt_titulo = findViewById(R.id.edt_titulo);
         edt_valor_comprado = findViewById(R.id.edt_valor_comprado);
         edt_valor_comprado.setLocale(new Locale("PT", "br"));
@@ -488,6 +487,7 @@ public class FormCarroActivity extends AppCompatActivity {
 
 
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

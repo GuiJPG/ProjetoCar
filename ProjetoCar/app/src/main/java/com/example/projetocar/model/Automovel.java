@@ -7,6 +7,7 @@ import com.example.projetocar.activitys.MainActivity;
 import com.example.projetocar.helper.FirebaseHelper;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ public class Automovel implements Serializable {
     private String idUsuario;
     private String titulo;
     private double valor;
+
+    private double valorVendido;
     private String placa;
     private String categoria;
     private String modelo;
@@ -54,6 +57,24 @@ public class Automovel implements Serializable {
 
         }
 
+    }
+
+    public void remove(){
+        DatabaseReference meusAnunciosRef = FirebaseHelper.getDatabaseReference()
+                .child("meus_automoveis")
+                .child(FirebaseHelper.getIdFirebase())
+                .child(this.getId());
+        meusAnunciosRef.removeValue();
+
+        for (int i = 0; i < getUrlImagens().size(); i++) {
+            StorageReference storageReference = FirebaseHelper.getStorageReference()
+                    .child("imagens")
+                    .child("automoveis")
+                    .child(getId())
+                    .child("imagem" + i + ".jpeg");
+            storageReference.delete();
+            
+        }
     }
 
     public String getId() {
@@ -159,5 +180,13 @@ public class Automovel implements Serializable {
 
     public void setUrlImagens(List<String> urlImagens) {
         this.urlImagens = urlImagens;
+    }
+
+    public double getValorVendido() {
+        return valorVendido;
+    }
+
+    public void setValorVendido(double valorVendido) {
+        this.valorVendido = valorVendido;
     }
 }
