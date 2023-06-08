@@ -1,5 +1,6 @@
 package com.example.projetocar.fragments;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -23,6 +24,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.tsuryo.swipeablerv.SwipeLeftRightCallback;
 import com.tsuryo.swipeablerv.SwipeableRecyclerView;
 
 import java.util.ArrayList;
@@ -102,6 +104,37 @@ public class HomeFragment extends Fragment implements AdapterListaAutomovel.Oncl
         rv_automoveis.setHasFixedSize(true);
         adapterListaAutomovel = new AdapterListaAutomovel(automovelList, this);
         rv_automoveis.setAdapter(adapterListaAutomovel);
+
+        rv_automoveis.setListener(new SwipeLeftRightCallback.Listener() {
+            @Override
+            public void onSwipedLeft(int position) {
+                //Delete
+            }
+
+            @Override
+            public void onSwipedRight(int position) {
+              showDialogEdit(automovelList.get(position));
+            }
+        });
+    }
+
+    private void showDialogEdit(Automovel automovel){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(requireContext());
+        alertDialog.setTitle("Deseja Editar o automovel?");
+        alertDialog.setNegativeButton("Não", ((dialog, whitch) -> {
+
+            dialog.dismiss();
+            adapterListaAutomovel.notifyDataSetChanged();
+        })).setPositiveButton("Sim",((dialog, whitch) -> {
+            Intent intent = new Intent(requireActivity(), FormCarroActivity.class);
+            intent.putExtra("automovelSelecionado", automovel);
+            startActivity(intent);
+
+            adapterListaAutomovel.notifyDataSetChanged();
+        }));
+
+        AlertDialog dialog = alertDialog.create();
+        dialog.show();
     }
 
     private void configCliques(){

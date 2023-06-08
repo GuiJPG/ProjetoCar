@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.blackcat.currencyedittext.CurrencyEditText;
 import com.example.projetocar.R;
 import com.example.projetocar.helper.FirebaseHelper;
+import com.example.projetocar.helper.Mascara;
 import com.example.projetocar.model.Automovel;
 import com.example.projetocar.model.Categoria;
 import com.example.projetocar.model.Endereco;
@@ -40,6 +41,7 @@ import com.google.firebase.storage.UploadTask;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.normal.TedPermission;
 import com.santalu.maskara.widget.MaskEditText;
+import com.squareup.picasso.Picasso;
 
 
 import java.io.File;
@@ -61,12 +63,13 @@ public class FormCarroActivity extends AppCompatActivity {
     private EditText edt_placa;
     private Button btn_categoria;
     private EditText edt_modelo;
-    private MaskEditText edt_ano_modelo;
+    private EditText edt_ano_modelo;
     private EditText edt_quilometragem;
     private EditText edt_descricao;
-    private MaskEditText edt_data_comprada;
     private Button btn_endereco;
     private TextView txt_endereco;
+
+    private TextView text_toolbar;
 
 
     private Endereco endereco;
@@ -92,9 +95,44 @@ public class FormCarroActivity extends AppCompatActivity {
 
         iniciarComponesntes();
 
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            automovel = (Automovel) bundle.getSerializable("automovelSelecionado");
+
+            configDados();
+        }
+
         configCliques();
 
         recuperaEndereco();
+
+    }
+
+    private void configDados() {
+        text_toolbar.setText("Editando Automovel");
+
+        categoriaSelecionada = automovel.getCategoria();
+        btn_categoria.setText(categoriaSelecionada);
+
+        edt_titulo.setText(automovel.getTitulo());
+        edt_valor_comprado.setText(Mascara.getValor(automovel.getValor()));
+        edt_placa.setText(automovel.getPlaca());
+        edt_modelo.setText(automovel.getModelo());
+        edt_ano_modelo.setText(automovel.getAnoModelo());
+        edt_quilometragem.setText(automovel.getQuilometragem());
+        edt_descricao.setText(automovel.getDescricao());
+
+        // Implementar metodo para recuperar endereço
+
+        //enderecoSelecionado = endereco.getBairro();
+        //btn_endereco.setText(enderecoSelecionado);
+
+        Picasso.get().load(automovel.getUrlImagens().get(0)).into(img0);
+        Picasso.get().load(automovel.getUrlImagens().get(1)).into(img1);
+        Picasso.get().load(automovel.getUrlImagens().get(2)).into(img2);
+
+        novoAnuncio = false;
+
 
     }
 
@@ -130,10 +168,9 @@ public class FormCarroActivity extends AppCompatActivity {
         double valor = (double) edt_valor_comprado.getRawValue() / 100;
         String placa = edt_placa.getText().toString();
         String modelo = edt_modelo.getText().toString();
-        String anoModelo = edt_ano_modelo.getUnMasked();
+        String anoModelo = edt_ano_modelo.getText().toString();
         String quilometragem = edt_quilometragem.getText().toString();
         String descricao = edt_descricao.getText().toString();
-        String dataComprada = edt_data_comprada.getUnMasked();
 
 
        if(!titulo.isEmpty()){
@@ -143,7 +180,6 @@ public class FormCarroActivity extends AppCompatActivity {
                            if(anoModelo.length() == 4){
                                if(!quilometragem.isEmpty()){
                                    if(!descricao.isEmpty()){
-                                       if(dataComprada.length() == 8){
                                            if(!categoriaSelecionada.isEmpty()){
                                               if(endereco.getBairro() != null){
 
@@ -157,7 +193,6 @@ public class FormCarroActivity extends AppCompatActivity {
                                                 automovel.setAnoModelo(anoModelo);
                                                 automovel.setQuilometragem(quilometragem);
                                                 automovel.setDescricao(descricao);
-                                                automovel.setDataCompada(dataComprada);
                                                 automovel.setEndereco(endereco);
 
                                                 if(novoAnuncio){
@@ -168,6 +203,16 @@ public class FormCarroActivity extends AppCompatActivity {
                                                     }else{
                                                         Toast.makeText(this, "Selecione 3 Imagens", Toast.LENGTH_SHORT).show();
                                                     }
+                                                }else{
+                                                    if(imagemList.size() > 0){
+                                                        for(int i = 0; i < imagemList.size(); i++){
+                                                            salvarImagemFirebase(imagemList.get(i), i);
+                                                        }
+
+                                                    }else{
+                                                        automovel.salvar(this, false);
+                                                    }
+
                                                 }
 
                                                //Adicionar mensagem de finalizado
@@ -182,10 +227,6 @@ public class FormCarroActivity extends AppCompatActivity {
 
                                            }
 
-                                       }else{
-                                           edt_data_comprada.requestFocus();
-                                           edt_data_comprada.setError("Informe uma data");
-                                       }
 
                                    }else{
                                        edt_descricao.requestFocus();
@@ -425,7 +466,7 @@ public class FormCarroActivity extends AppCompatActivity {
 
     @SuppressLint("WrongViewCast")
     private void iniciarComponesntes(){
-        TextView text_toolbar = findViewById(R.id.text_toolbar);
+        text_toolbar = findViewById(R.id.text_toolbar);
         text_toolbar.setText("Novo Carro");
 
         edt_titulo = findViewById(R.id.edt_titulo);
@@ -437,7 +478,6 @@ public class FormCarroActivity extends AppCompatActivity {
         edt_ano_modelo = findViewById(R.id.edt_ano_modelo);
         edt_quilometragem = findViewById(R.id.edt_quilometragem);
         edt_descricao = findViewById(R.id.edt_descricao);
-        edt_data_comprada = findViewById(R.id.edt_data_comprada);
         btn_endereco = findViewById(R.id.btn_endereco);
         txt_endereco = findViewById(R.id.txt_endereco);
 

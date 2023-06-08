@@ -15,7 +15,6 @@ import java.util.TimeZone;
 
 public class Mascara {
 
-    /* Metodo para adicionar futuramente com informações de datas
 
     public static String getData(long dataPublicacao, int tipo){
 
@@ -117,7 +116,7 @@ public class Mascara {
 
     }
 
-     */
+
 
 
     public static String getValor(double valor){
@@ -126,4 +125,5 @@ public class Mascara {
                 new Locale("PT", "br")));
         return nf.format(valor);
     }
+
 }

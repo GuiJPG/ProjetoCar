@@ -8,10 +8,11 @@ import com.example.projetocar.helper.FirebaseHelper;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ServerValue;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Automovel {
+public class Automovel implements Serializable {
 
     private String id;
     private String idUsuario;
@@ -23,7 +24,6 @@ public class Automovel {
     private String anoModelo;
     private String quilometragem;
     private String descricao;
-    private String dataCompada;
     private long dataPublicacao;
 
     private Endereco endereco;
@@ -136,13 +136,6 @@ public class Automovel {
         this.descricao = descricao;
     }
 
-    public String getDataCompada() {
-        return dataCompada;
-    }
-
-    public void setDataCompada(String dataCompada) {
-        this.dataCompada = dataCompada;
-    }
 
     public long getDataPublicacao() {
         return dataPublicacao;
