@@ -99,6 +99,7 @@ public class HomeFragment extends Fragment implements AdapterListaAutomovel.Oncl
             progressBar.setVisibility(View.GONE);
         }
     }
+
     private void configRv(){
         rv_automoveis.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv_automoveis.setHasFixedSize(true);
@@ -114,22 +115,23 @@ public class HomeFragment extends Fragment implements AdapterListaAutomovel.Oncl
 
             @Override
             public void onSwipedRight(int position) {
-              showDialogEdit(automovelList.get(position));
+                //Edit
+                 showDialogEdit(automovelList.get(position));
             }
         });
     }
 
     private void showDialogDelete(Automovel automovel){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(requireContext());
-        alertDialog.setTitle("Deseja Remover o automovel?");
+        alertDialog.setTitle("Automovel Vendido?");
         alertDialog.setNegativeButton("Não", ((dialog, whitch) -> {
 
             dialog.dismiss();
             adapterListaAutomovel.notifyDataSetChanged();
         })).setPositiveButton("Sim",((dialog, whitch) -> {
-            automovelList.remove(automovel);
-            automovel.remove();
-
+            Intent intent = new Intent(requireActivity(), FormCarroActivity.class);
+            intent.putExtra("automovelSelecionado", automovel);
+            startActivity(intent);
             adapterListaAutomovel.notifyDataSetChanged();
         }));
 

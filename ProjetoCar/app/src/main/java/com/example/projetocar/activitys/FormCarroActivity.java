@@ -86,7 +86,7 @@ public class FormCarroActivity extends AppCompatActivity {
     private List<Imagem> imagemList = new ArrayList<>();
 
     private Automovel automovel;
-    private boolean novoAnuncio = true;
+    private boolean novoAutomovel = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,7 +131,7 @@ public class FormCarroActivity extends AppCompatActivity {
         Picasso.get().load(automovel.getUrlImagens().get(1)).into(img1);
         Picasso.get().load(automovel.getUrlImagens().get(2)).into(img2);
 
-        novoAnuncio = false;
+        novoAutomovel = false;
 
 
     }
@@ -173,95 +173,95 @@ public class FormCarroActivity extends AppCompatActivity {
         String descricao = edt_descricao.getText().toString();
 
 
-       if(!titulo.isEmpty()){
-           if(valor > 0){
-               if(placa.length() == 7){
-                       if(!modelo.isEmpty()){
-                           if(anoModelo.length() == 4){
-                               if(!quilometragem.isEmpty()){
-                                   if(!descricao.isEmpty()){
-                                           if(!categoriaSelecionada.isEmpty()){
-                                              if(endereco.getBairro() != null){
+        if(!titulo.isEmpty()){
+            if(valor > 0){
+                if(placa.length() == 7){
+                    if(!modelo.isEmpty()){
+                        if(anoModelo.length() == 4){
+                            if(!quilometragem.isEmpty()){
+                                if(!descricao.isEmpty()){
+                                    if(!categoriaSelecionada.isEmpty()){
+                                        if(endereco.getBairro() != null){
 
-                                                if(automovel == null) automovel = new Automovel();
-                                                automovel.setIdUsuario(FirebaseHelper.getIdFirebase());
-                                                automovel.setTitulo(titulo);
-                                                automovel.setValor(valor);
-                                                automovel.setPlaca(placa);
-                                                automovel.setCategoria(categoriaSelecionada);
-                                                automovel.setModelo(modelo);
-                                                automovel.setAnoModelo(anoModelo);
-                                                automovel.setQuilometragem(quilometragem);
-                                                automovel.setDescricao(descricao);
-                                                automovel.setEndereco(endereco);
+                                            if(automovel == null) automovel = new Automovel();
+                                            automovel.setIdUsuario(FirebaseHelper.getIdFirebase());
+                                            automovel.setTitulo(titulo);
+                                            automovel.setValor(valor);
+                                            automovel.setPlaca(placa);
+                                            automovel.setCategoria(categoriaSelecionada);
+                                            automovel.setModelo(modelo);
+                                            automovel.setAnoModelo(anoModelo);
+                                            automovel.setQuilometragem(quilometragem);
+                                            automovel.setDescricao(descricao);
+                                            automovel.setEndereco(endereco);
 
-                                                if(novoAnuncio){
-                                                    if(imagemList.size() == 3){
-                                                        for(int i = 0; i < imagemList.size(); i++){
-                                                            salvarImagemFirebase(imagemList.get(i), i);
-                                                        }
-                                                    }else{
-                                                        Toast.makeText(this, "Selecione 3 Imagens", Toast.LENGTH_SHORT).show();
+                                            if(novoAutomovel){
+                                                if(imagemList.size() == 3){
+                                                    for(int i = 0; i < imagemList.size(); i++){
+                                                        salvarImagemFirebase(imagemList.get(i), i);
                                                     }
                                                 }else{
-                                                    if(imagemList.size() > 0){
-                                                        for(int i = 0; i < imagemList.size(); i++){
-                                                            salvarImagemFirebase(imagemList.get(i), i);
-                                                        }
-
-                                                    }else{
-                                                        automovel.salvar(this, false);
+                                                    Toast.makeText(this, "Selecione 3 Imagens", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }else{
+                                                if(imagemList.size() > 0){
+                                                    for(int i = 0; i < imagemList.size(); i++){
+                                                        salvarImagemFirebase(imagemList.get(i), i);
                                                     }
 
+                                                }else{
+                                                    automovel.salvar(this, false);
                                                 }
 
-                                               //Adicionar mensagem de finalizado
+                                            }
+
+                                            //Adicionar mensagem de finalizado
 
 
-                                              }else{
-                                                  Toast.makeText(this, "Selecione um endereço", Toast.LENGTH_SHORT).show();
-                                              }
+                                        }else{
+                                            Toast.makeText(this, "Selecione um endereço", Toast.LENGTH_SHORT).show();
+                                        }
 
-                                           }else{
-                                               Toast.makeText(this, "Selecione uma categoria", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        Toast.makeText(this, "Selecione uma categoria", Toast.LENGTH_SHORT).show();
 
-                                           }
+                                    }
 
 
-                                   }else{
-                                       edt_descricao.requestFocus();
-                                       edt_descricao.setError("Informe uma descrição");
-                                   }
+                                }else{
+                                    edt_descricao.requestFocus();
+                                    edt_descricao.setError("Informe uma descrição");
+                                }
 
-                               }else{
-                                   edt_quilometragem.requestFocus();
-                                   edt_quilometragem.setError("Informe a quilometragem");
-                               }
+                            }else{
+                                edt_quilometragem.requestFocus();
+                                edt_quilometragem.setError("Informe a quilometragem");
+                            }
 
-                           }else{
-                               edt_ano_modelo.requestFocus();
-                               edt_ano_modelo.setError("Informe ano do carro");
-                           }
+                        }else{
+                            edt_ano_modelo.requestFocus();
+                            edt_ano_modelo.setError("Informe ano do carro");
+                        }
 
-                       }else{
-                           edt_modelo.requestFocus();
-                           edt_modelo.setError("Informe um Modelo");
-                       }
+                    }else{
+                        edt_modelo.requestFocus();
+                        edt_modelo.setError("Informe um Modelo");
+                    }
 
-               }else{
-                   edt_placa.requestFocus();
-                   edt_placa.setError("Placa invalida");
-               }
+                }else{
+                    edt_placa.requestFocus();
+                    edt_placa.setError("Placa invalida");
+                }
 
-           }else{
-               edt_valor_comprado.requestFocus();
-               edt_valor_comprado.setError("Informe um valor válido");
-           }
+            }else{
+                edt_valor_comprado.requestFocus();
+                edt_valor_comprado.setError("Informe um valor válido");
+            }
 
-       }else{
-           edt_titulo.requestFocus();
-           edt_titulo.setError("Informe um titulo");
-       }
+        }else{
+            edt_titulo.requestFocus();
+            edt_titulo.setError("Informe um titulo");
+        }
     }
 
     private void salvarImagemFirebase(Imagem imagem, int index){
@@ -274,13 +274,13 @@ public class FormCarroActivity extends AppCompatActivity {
         UploadTask uploadTask = storageReference.putFile(Uri.parse(imagem.getCaminhoimagem()));
         uploadTask.addOnSuccessListener(taskSnapshot -> storageReference.getDownloadUrl().addOnCompleteListener(task -> {
 
-            if(novoAnuncio){
+            if(novoAutomovel){
                 automovel.getUrlImagens().add(index,task.getResult().toString());
             }else{
                 automovel.getUrlImagens().set(imagem.getIndex(), task.getResult().toString());
             }
             if(imagemList.size() == index + 1){
-                automovel.salvar(this, novoAnuncio);
+                automovel.salvar(this, novoAutomovel);
             }
 
         })).addOnFailureListener(e -> Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show());
@@ -386,7 +386,7 @@ public class FormCarroActivity extends AppCompatActivity {
         PermissionListener permissionListener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-            abrirGaleria(requestCode);
+                abrirGaleria(requestCode);
             }
 
             @Override

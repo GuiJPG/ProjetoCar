@@ -19,7 +19,6 @@ public class Automovel implements Serializable {
     private String idUsuario;
     private String titulo;
     private double valor;
-
     private double valorVendido;
     private String placa;
     private String categoria;
@@ -28,13 +27,12 @@ public class Automovel implements Serializable {
     private String quilometragem;
     private String descricao;
     private long dataPublicacao;
-
     private Endereco endereco;
     private List<String> urlImagens = new ArrayList<>();
 
     public Automovel() {
-        DatabaseReference anuncioRef = FirebaseHelper.getDatabaseReference();
-        this.setId(anuncioRef.push().getKey());
+        DatabaseReference automovelRef = FirebaseHelper.getDatabaseReference();
+        this.setId(automovelRef.push().getKey());
     }
 
     public void salvar(Activity activity, boolean novoAutomovel){
@@ -156,7 +154,6 @@ public class Automovel implements Serializable {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-
 
     public long getDataPublicacao() {
         return dataPublicacao;
