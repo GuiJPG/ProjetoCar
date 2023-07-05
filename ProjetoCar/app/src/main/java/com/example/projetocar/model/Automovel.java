@@ -35,7 +35,7 @@ public class Automovel implements Serializable {
         this.setId(automovelRef.push().getKey());
     }
 
-    public void salvar(Activity activity, boolean novoAutomovel){
+    public void salvar(boolean novoAutomovel){
         DatabaseReference meusAnunciosRef = FirebaseHelper.getDatabaseReference()
                 .child("meus_automoveis")
                 .child(FirebaseHelper.getIdFirebase())
@@ -46,12 +46,12 @@ public class Automovel implements Serializable {
             DatabaseReference dataAnuncioPublicado = meusAnunciosRef
                     .child("dataPublicacao");
             dataAnuncioPublicado.setValue(ServerValue.TIMESTAMP).addOnCompleteListener(task -> {
-                activity.finish();
-                Intent intent = new Intent(activity, MainActivity.class);
-                activity.startActivity(intent);
+                //activity.finish();
+                //Intent intent = new Intent(activity, MainActivity.class);
+                //activity.startActivity(intent);
             });
         }else{
-            activity.finish();
+            //activity.finish();
 
         }
 

@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
@@ -40,7 +39,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.normal.TedPermission;
-import com.santalu.maskara.widget.MaskEditText;
 import com.squareup.picasso.Picasso;
 
 
@@ -210,7 +208,7 @@ public class FormCarroActivity extends AppCompatActivity {
                                                     }
 
                                                 }else{
-                                                    automovel.salvar(this, false);
+                                                    automovel.salvar( false);
                                                 }
 
                                             }
@@ -275,12 +273,12 @@ public class FormCarroActivity extends AppCompatActivity {
         uploadTask.addOnSuccessListener(taskSnapshot -> storageReference.getDownloadUrl().addOnCompleteListener(task -> {
 
             if(novoAutomovel){
-                automovel.getUrlImagens().add(index,task.getResult().toString());
+                automovel.getUrlImagens().add(index, task.getResult().toString());
             }else{
                 automovel.getUrlImagens().set(imagem.getIndex(), task.getResult().toString());
             }
             if(imagemList.size() == index + 1){
-                automovel.salvar(this, novoAutomovel);
+                automovel.salvar( novoAutomovel);
             }
 
         })).addOnFailureListener(e -> Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show());
@@ -464,7 +462,7 @@ public class FormCarroActivity extends AppCompatActivity {
                 .check();
     }
 
-    @SuppressLint("WrongViewCast")
+
     private void iniciarComponesntes(){
         text_toolbar = findViewById(R.id.text_toolbar);
         text_toolbar.setText("Novo Carro");

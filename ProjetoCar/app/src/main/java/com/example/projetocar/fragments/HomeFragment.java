@@ -110,7 +110,6 @@ public class HomeFragment extends Fragment implements AdapterListaAutomovel.Oncl
             @Override
             public void onSwipedLeft(int position) {
                 //Delete
-                showDialogDelete(automovelList.get(position));
             }
 
             @Override
@@ -119,24 +118,6 @@ public class HomeFragment extends Fragment implements AdapterListaAutomovel.Oncl
                  showDialogEdit(automovelList.get(position));
             }
         });
-    }
-
-    private void showDialogDelete(Automovel automovel){
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(requireContext());
-        alertDialog.setTitle("Automovel Vendido?");
-        alertDialog.setNegativeButton("Não", ((dialog, whitch) -> {
-
-            dialog.dismiss();
-            adapterListaAutomovel.notifyDataSetChanged();
-        })).setPositiveButton("Sim",((dialog, whitch) -> {
-            Intent intent = new Intent(requireActivity(), FormCarroActivity.class);
-            intent.putExtra("automovelSelecionado", automovel);
-            startActivity(intent);
-            adapterListaAutomovel.notifyDataSetChanged();
-        }));
-
-        AlertDialog dialog = alertDialog.create();
-        dialog.show();
     }
 
     private void showDialogEdit(Automovel automovel){
